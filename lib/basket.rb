@@ -5,19 +5,44 @@ class Basket
 
   def initialize
     @cart = []
+    @promotions = []
   end
 
-  def price
+  def total_price
     recount_price
   end
 
-  def add_to_cart(product)
-    @cart << product
+  def add_to_cart(product_definition)
+    if already_stocked?(product_definition)
+      increase_quantity!
+    else
+      @cart << Product.new(product_definition: product_definition)
+    end
+  end
+
+  def add_promotion(promotion)
+    @promotions << promotion
   end
 
   private
 
+  def already_stocked?(product_definition)
+    @stocked_item = @cart.find{|product| product.code == product_definition.code}
+  end
+
+  def increase_quantity!
+    @stocked_item.quantity += 1
+  end
+
+  def stocked_item_price
+    @cart.map(&:price).inject(:+)
+  end
+
   def recount_price
-    123.54
+    apply_basket_discount(stocked_item_price)
+  end
+
+  def apply_basket_discount(item_price)
+    item_price
   end
 end
