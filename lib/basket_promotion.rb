@@ -6,11 +6,13 @@ class BasketPromotion
     @discount_percent = discount_percent
   end
 
-  def should_apply_promotion?(value)
-    value >= @border_value
+  def total_price(value)
+    should_apply_promotion?(value) ? (100 - @discount_percent.to_f) / 100 * value : value
   end
 
-  def total_price(value)
-    should_apply_promotion?(value) ? (100-@discount_percent.to_f) * value : value
+  private
+
+  def should_apply_promotion?(value)
+    value >= @border_value
   end
 end

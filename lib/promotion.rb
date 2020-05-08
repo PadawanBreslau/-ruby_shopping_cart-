@@ -1,21 +1,20 @@
 # frozen_string_literal: true
 
 class Promotion
-  def initialize(product_definition:, border_quantity:, new_price:)
-    @product_definition = product_definition
+  def initialize(border_quantity:, new_price:)
     @border_quantity = border_quantity
     @new_price = new_price
   end
 
-  def should_apply_promotion?(value)
-    value >= @border_quantity
+  def should_apply_promotion?(quantity)
+    quantity >= @border_quantity
   end
 
-  def promotional_price(value)
-    should_apply_promotion?(value) ? @new_price : @product_definition.price
+  def promotional_price(quantity, old_price)
+    should_apply_promotion?(quantity) ? @new_price : old_price
   end
 
-  def total_price(value)
-    value * promotional_price(value)
+  def total_price(quantity, old_price)
+    quantity * promotional_price(quantity, old_price)
   end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Product
+  attr_reader :product_definition
   attr_accessor :quantity
 
   def initialize(product_definition:)
@@ -21,6 +22,6 @@ class Product
   private
 
   def best_promotion(promotions, quantity)
-    promotions.map{|promotion| promotion.total_price(quantity)}.min
+    promotions.map { |promotion| promotion.total_price(quantity, @product_definition.price) }.min
   end
 end

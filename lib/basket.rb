@@ -3,7 +3,8 @@
 class Basket
   attr_reader :cart
 
-  def initialize
+  def initialize(shop:)
+    @shop = shop
     @cart = []
     @promotions = []
   end
@@ -20,14 +21,10 @@ class Basket
     end
   end
 
-  def add_promotion(promotion)
-    @promotions << promotion
-  end
-
   private
 
   def already_stocked?(product_definition)
-    @stocked_item = @cart.find{|product| product.code == product_definition.code}
+    @stocked_item = @cart.find { |product| product.code == product_definition.code }
   end
 
   def increase_quantity!
@@ -43,6 +40,6 @@ class Basket
   end
 
   def apply_basket_discount(item_price)
-    item_price
+    @shop.best_discount(item_price)
   end
 end
